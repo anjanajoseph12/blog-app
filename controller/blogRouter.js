@@ -34,7 +34,44 @@ router.post("/add",async(req,res)=>
 
 
     
+ router.post("/signin",async(req,res)=>
+ {
+   
+    let email=req.body.emailid
+    let data=await usersModel.findOne({"email":emailid})
+    if(!data)
+    {
+        return res.json({
+            status:"invalid user"
 
+
+        }
+           
+        )
+        }
+    
+    console.log(data)
+    let dbPassword=data.password
+    let inputPassword=req.body.password
+    console.log(dbPassword)
+    console.log(inputPassword)
+    const match=await bcrypt.compare(inputPassword,dbPassword)
+    if(!match)
+    {
+        return res.json(
+            {
+                status:"invalid password"
+            }
+          
+        )
+    }
+    res.json({
+        status:"success"
+    })
+
+
+
+ })
     
     
 })
